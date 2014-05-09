@@ -1,6 +1,12 @@
         body {
             background-color: #ffffff;
         }
-        canvas {
+        #minimap {
             border:1px solid red;
+        }
+        #notify {
+        	border:1px solid blue;
+        }
+        #exhibit {
+        	border:1px solid green;
         }
