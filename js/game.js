@@ -65,15 +65,15 @@
             mouseY = parseInt(e.clientY - offsetY);
             $("#downlog").html("Coordinate: " + mouseX + " / " + mouseY);
 
-            // Put your mousedown stuff here
             points = linePoints(currentX, currentY, mouseX, mouseY, frameCount);
             currentFrame = 0;
             currentX = mouseX;
             currentY = mouseY;
             animate();
-
-            if (currentX >= 50 && currentY >= 50 && currentX <= 55 && currentY <= 55 ){
-                console.log("You can't do that!")
+            
+            // TICKET BOOTH
+            if (currentX >= 50 && currentY >= 50 && currentX <= 55 && currentY <= 55 ){ 
+                console.log("You can't do that!") // we're going to set the conditions later
             }
         }
 
