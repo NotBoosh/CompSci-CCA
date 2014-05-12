@@ -15,9 +15,9 @@ var purchasedTicket = "false";
 
 // Exhibits | To-do: Select a random value from this array
 // and display that animal's anim in the "exhibit"
-var currentMammal = ["giraffe", "lion", "monkey"];
-var currentReptile = ["snake", "komodo", "gator"];
-var currentBird = ["eagle", "flamingo", "ostrich"];
+var mammalIndex = ["giraffe", "lion", "monkey"];
+var reptileIndex = ["snake", "komodo dragon", "crocodile"];
+var birdIndex = ["eagle", "flamingo", "ostrich"];
 
 
 function animate() {
@@ -81,6 +81,22 @@ function draw(x, y) {
     ctx.stroke();
     ctx.closePath();
 
+    // Exhibit: Birds
+    ctx.beginPath();
+    ctx.fillStyle = "#682e1a"; // Magenta
+    ctx.rect(286, 51, 80, 80);
+    ctx.fill();
+    ctx.stroke();
+    ctx.closePath();
+
+    // Concessions
+    ctx.beginPath();
+    ctx.fillStyle = "#00cccc"; // Magenta
+    ctx.rect(439, 348, 40, 40);
+    ctx.fill();
+    ctx.stroke();
+    ctx.closePath();
+
     // Restrooms
     ctx.beginPath();
     ctx.fillStyle = "#e53fe5"; // Magenta
@@ -109,45 +125,74 @@ function handleMouseDown(e) {
     currentY = mouseY;
     animate();
 
-    // We run the functions for each exhibit/location
+    // Calling the primary function for each exhibit/location
+    zooKeeper();
+}
+
+function zooKeeper() {
+    function ticketBooth() {
+        if (currentX >= 50 && currentY >= 50 && currentX <= 90 && currentY <= 89 && purchasedTicket === "false") {
+            $("#notify").html("You purchase a ticket from the booth.");
+            purchasedTicket = "true"
+        }
+    }
+
+    function restrooms() {
+        if (currentX >= 439 && currentY >= 191 && currentX <= 480 && currentY <= 230) {
+            $("#notify").html("You use the restrooms.");
+        }
+    }
+
+    function concessions() {
+        if (currentX >= 439 && currentY >= 348 && currentX <= 480 && currentY <= 395) {
+            $("#notify").html("You use visit the concessions. What do you want to buy?");
+            var userPurchase = prompt("The concession somehow has every food and drink in the known universe.");
+            if (userPurchase != null){
+                $("#notify").html("You purchase " + userPurchase + ".");
+            }
+        }
+    }
+
+    function exhibitMammals() {
+        var currentMammal = mammalIndex[Math.floor(Math.random() * mammalIndex.length)];
+        if (currentX >= 232 && currentY >= 237 && currentX <= 310 && currentY <= 313 && purchasedTicket === "true") {
+            $("#notify").html("You watch the mammal exhibit with others in the crowd. The mammal on display is a " + currentMammal + ".");
+        } else if (currentX >= 232 && currentY >= 237 && currentX <= 310 && currentY <= 313 && purchasedTicket === "false") {
+            $("#notify").html("You must purchase a ticket before viewing this exhibit!");
+        }
+        // anim stuff here
+    }
+
+    function exhibitBirds() {
+        var currentBird = birdIndex[Math.floor(Math.random() * mammalIndex.length)];
+        if (currentX >= 286 && currentY >= 51 && currentX <= 365 && currentY <= 138 && purchasedTicket === "true") {
+            $("#notify").html("You watch the bird exhibit with others in the crowd. The bird on display is a(n) " + currentBird + ".");
+        } else if (currentX >= 286 && currentY >= 51 && currentX <= 365 && currentY <= 138 && purchasedTicket === "false") {
+            $("#notify").html("You must purchase a ticket before viewing this exhibit!");
+        }
+        // anim stuff here
+    }
+
+    function exhibitReptiles() {
+        var currentReptile = reptileIndex[Math.floor(Math.random() * reptileIndex.length)];
+        if (currentX >= 39 && currentY >= 367 && currentX <= 119 && currentY <= 450 && purchasedTicket === "true") {
+            $("#notify").html("You watch the reptile exhibit with others in the crowd. The reptile on display is a " + currentReptile + ".");
+        } else if (currentX >= 39 && currentY >= 367 && currentX <= 119 && currentY <= 450 && purchasedTicket === "false") {
+            $("#notify").html("You must purchase a ticket before viewing this exhibit!");
+        }
+        // anim stuff here
+    }
+
+    // Call aforementioned functions
     ticketBooth();
     restrooms();
+    concessions();
     exhibitMammals();
+    exhibitBirds();
     exhibitReptiles();
 }
 
-function ticketBooth() {
-    if (currentX >= 50 && currentY >= 50 && currentX <= 90 && currentY <= 89 && purchasedTicket === "false") {
-        $("#notify").html("You purchase a ticket from the booth.");
-        purchasedTicket = "true"
-    }
-}
-
-function restrooms() {
-    if (currentX >= 439 && currentY >= 191 && currentX <= 480 && currentY <= 230) {
-        $("#notify").html("You use the restrooms.");
-    }
-}
-
-function exhibitMammals() {
-    if (currentX >= 232 && currentY >= 237 && currentX <= 310 && currentY <= 313 && purchasedTicket === "true") {
-        $("#notify").html("You watch the mammal exhibit with others in the crowd. The animal on display is a ");
-    } else if (currentX >= 232 && currentY >= 237 && currentX <= 310 && currentY <= 313 && purchasedTicket === "false") {
-        $("#notify").html("You must purchase a ticket before viewing this exhibit!");
-    }
-    // anim stuff here
-}
-
-function exhibitReptiles() {
-    if (currentX >= 39 && currentY >= 367 && currentX <= 119 && currentY <= 450 && purchasedTicket === "true") {
-        $("#notify").html("You watch the reptile exhibit with others in the crowd. The animal on display is a ");
-    } else if (currentX >= 39 && currentY >= 367 && currentX <= 119 && currentY <= 450 && purchasedTicket === "false") {
-        $("#notify").html("You must purchase a ticket before viewing this exhibit!");
-    }
-    // anim stuff here
-}
-
-$("#minimap").mousedown(function(e) {
+$("#minimap").mousedown(function (e) {
     handleMouseDown(e)
 });
 
