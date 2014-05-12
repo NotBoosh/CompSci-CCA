@@ -1,3 +1,4 @@
+// Global variables
 var minimap = document.getElementById("minimap");
 var exhibit = document.getElementById("exhibit");
 var ctx = minimap.getContext("2d");
@@ -11,9 +12,13 @@ var timer;
 var points;
 var currentFrame;
 var purchasedTicket = "false";
-// To-do: Select a random value from this array
+
+// Exhibits | To-do: Select a random value from this array
 // and display that animal's anim in the "exhibit"
 var currentMammal = ["giraffe", "lion", "monkey"];
+var currentReptile = ["snake", "komodo", "gator"];
+var currentBird = ["eagle", "flamingo", "ostrich"];
+
 
 function animate() {
     var point = points[currentFrame++];
@@ -47,7 +52,7 @@ function linePoints(x1, y1, x2, y2, frames) {
     return (a)
 }
 
-// Messy function ahead
+// To-do: Concessions, birds
 function draw(x, y) {
     ctx.clearRect(0, 0, minimap.width, minimap.height);
     ctx.strokeStyle = "gray";
@@ -97,7 +102,7 @@ function draw(x, y) {
 function handleMouseDown(e) {
     mouseX = parseInt(e.clientX - offsetX);
     mouseY = parseInt(e.clientY - offsetY);
-    $("#downlog").html("Coordinate: " + mouseX + " / " + mouseY);
+    $("#downlog").html("Debug Coordinate: " + mouseX + " / " + mouseY);
     points = linePoints(currentX, currentY, mouseX, mouseY, frameCount);
     currentFrame = 0;
     currentX = mouseX;
