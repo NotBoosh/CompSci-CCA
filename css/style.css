@@ -1,12 +1,17 @@
         body {
             background-color: #ffffff;
+            text-align: center;
+            font-family: 'Open Sans', sans-serif;
+        }
+        #instruction {
+            font-style: italic;
         }
         #minimap {
-            border:1px solid red;
+            border:2px solid #808080; /* Temporary - Grey */
         }
         #notify {
-        	border:1px solid blue;
+        	/* To-do: ? */
         }
         #exhibit {
-        	border:1px solid green;
+        	border:2px solid #808080; /* Temporary - Grey */
         }

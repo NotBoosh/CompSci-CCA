@@ -2,14 +2,20 @@
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="css/style.css"/>
+<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
 <script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
+<script type="text/javascript">
+	function clearDialogue(){
+		$("#notify").html("");
+	}
+</script>
 </head>
 <body>
-<p>You have entered the zoo. Click on an exhibit to visit it.</p>
-<p id="downlog">Down</p>
+<p id="instruction">Click on an exhibit to visit it.<br />Orange: Tickets | Red: Mammal Exhibit | Green: Reptile Exhibit | Magenta: Restrooms | Blue: You!</p>
+<p id="downlog">Coordinate: 10 / 10</p>
 <canvas id="minimap" width=500 height=500></canvas>
 <canvas id="exhibit" width=500 height=500></canvas>
-<p id="notify"></p>
+<p id="notify">You have entered the zoo.</p><button type="button" onclick="clearDialogue()">Clear</button>
 </body>
 <script type="text/javascript" src="js/game.js"></script>
 </html>
