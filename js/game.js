@@ -108,7 +108,7 @@ function draw(x, y) {
     // Player -- last so it gains draw priority
     ctx.beginPath();
     ctx.fillStyle = "#3370d4"; // Blue
-    ctx.rect(x, y, 30, 20);
+    ctx.arc(x, y, 10, 20, 0, 2*Math.PI);
     ctx.fill();
     ctx.stroke();
     ctx.closePath();
@@ -131,7 +131,7 @@ function handleMouseDown(e) {
 
 function zooKeeper() {
     function ticketBooth() {
-        if (currentX >= 50 && currentY >= 50 && currentX <= 90 && currentY <= 89 && purchasedTicket === "false") {
+        if (currentX >= 50 && currentY >= 50 && currentX <= 89 && currentY <= 96 && purchasedTicket === "false") {
             $("#notify").html("You purchase a ticket from the booth.");
             purchasedTicket = "true" // Allows player to progress
         }
