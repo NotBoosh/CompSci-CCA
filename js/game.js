@@ -1,6 +1,7 @@
 // Global variables
 var minimap = document.getElementById("minimap");
-var exhibit = document.getElementById("exhibit");
+var exhibitCanvas = document.getElementById("exhibit");
+var ectx = exhibitCanvas.getContext("2d");
 var ctx = minimap.getContext("2d");
 var minimapOffset = $("#minimap").offset();
 var offsetX = minimapOffset.left;
@@ -24,7 +25,7 @@ function animate() {
     var point = points[currentFrame++];
     draw(point.x, point.y);
     if (currentFrame < points.length) {
-        timer = setTimeout(animate, 1000 / 60)
+        timer = setTimeout(animate, 1000 / 60);
     }
 }
 
@@ -52,7 +53,6 @@ function linePoints(x1, y1, x2, y2, frames) {
     return (a)
 }
 
-// To-do: Concessions, birds
 function draw(x, y) {
     ctx.clearRect(0, 0, minimap.width, minimap.height);
     ctx.strokeStyle = "gray";
@@ -75,7 +75,7 @@ function draw(x, y) {
 
     // Exhibit: Reptiles
     ctx.beginPath();
-    ctx.fillStyle = "#33cc00"; // Green
+    ctx.fillStyle = "#6dd339"; // Green
     ctx.rect(39, 365, 80, 80);
     ctx.fill();
     ctx.stroke();
@@ -83,7 +83,7 @@ function draw(x, y) {
 
     // Exhibit: Birds
     ctx.beginPath();
-    ctx.fillStyle = "#682e1a"; // Magenta
+    ctx.fillStyle = "#682e1a"; // Brown
     ctx.rect(286, 51, 80, 80);
     ctx.fill();
     ctx.stroke();
@@ -91,7 +91,7 @@ function draw(x, y) {
 
     // Concessions
     ctx.beginPath();
-    ctx.fillStyle = "#00cccc"; // Magenta
+    ctx.fillStyle = "#00cccc"; // Turquoise
     ctx.rect(439, 348, 40, 40);
     ctx.fill();
     ctx.stroke();
@@ -118,7 +118,7 @@ function draw(x, y) {
 function handleMouseDown(e) {
     mouseX = parseInt(e.clientX - offsetX);
     mouseY = parseInt(e.clientY - offsetY);
-    $("#downlog").html("Debug Coordinate: " + mouseX + " / " + mouseY);
+    $("#downlog").html("Debug Coordinate: " + mouseX + " / " + mouseY); // For debugging
     points = linePoints(currentX, currentY, mouseX, mouseY, frameCount);
     currentFrame = 0;
     currentX = mouseX;
@@ -133,7 +133,7 @@ function zooKeeper() {
     function ticketBooth() {
         if (currentX >= 50 && currentY >= 50 && currentX <= 90 && currentY <= 89 && purchasedTicket === "false") {
             $("#notify").html("You purchase a ticket from the booth.");
-            purchasedTicket = "true"
+            purchasedTicket = "true" // Allows player to progress
         }
     }
 
@@ -154,9 +154,24 @@ function zooKeeper() {
     }
 
     function exhibitMammals() {
+		var imageGiraffe = document.getElementById("giraffe");
+		var imageLion = document.getElementById("lion");
+		var imageMonkey = document.getElementById("monkey");
+		ectx.fillStyle = "#fff";
+		
         var currentMammal = mammalIndex[Math.floor(Math.random() * mammalIndex.length)];
         if (currentX >= 232 && currentY >= 237 && currentX <= 310 && currentY <= 313 && purchasedTicket === "true") {
             $("#notify").html("You watch the mammal exhibit with others in the crowd. The mammal on display is a " + currentMammal + ".");
+			if (currentMammal === "giraffe"){
+				ectx.beginPath();
+				ectx.fillRect(0, 0, 500, 500);
+				ectx.drawImage(imageGiraffe, 150, 150);
+				ectx.closePath();
+			}
+			else if (currentMammal === "lion"){
+			}
+			else if (currentMammal === "lion"){
+			}
         } else if (currentX >= 232 && currentY >= 237 && currentX <= 310 && currentY <= 313 && purchasedTicket === "false") {
             $("#notify").html("You must purchase a ticket before viewing this exhibit!");
         }
