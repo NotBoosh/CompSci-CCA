@@ -169,8 +169,16 @@ function zooKeeper() {
 				ectx.closePath();
 			}
 			else if (currentMammal === "lion"){
+				ectx.beginPath();
+				ectx.fillRect(0, 0, 500, 500);
+				ectx.drawImage(imageLion, 150, 150);
+				ectx.closePath();
 			}
-			else if (currentMammal === "lion"){
+			else if (currentMammal === "monkey"){
+				ectx.beginPath();
+				ectx.fillRect(0, 0, 500, 500);
+				ectx.drawImage(imageMonkey, 150, 150);
+				ectx.closePath();
 			}
         } else if (currentX >= 232 && currentY >= 237 && currentX <= 310 && currentY <= 313 && purchasedTicket === "false") {
             $("#notify").html("You must purchase a ticket before viewing this exhibit!");
