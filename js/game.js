@@ -136,6 +136,10 @@ function zooKeeper() {
             $("#notify").html("You purchase a ticket from the booth.");
             purchasedTicket = "true"; // Allows player to progress
         }
+        
+        else if (currentX >= 50 && currentY >= 50 && currentX <= 89 && currentY <= 96 && purchasedTicket) {
+            $("#notify").html("You already own a ticket!");
+        }
     }
 
     function restrooms() {
@@ -189,9 +193,30 @@ function zooKeeper() {
     }
 
     function exhibitBirds() {
+        var imageFlamingo = document.getElementById("flamingo");
+        var imageOstrich = document.getElementById("ostrich");
+        var imageEagle = document.getElementById("eagle");
+        ectx.fillStyle = "#fff";
+        
         var currentBird = birdIndex[Math.floor(Math.random() * mammalIndex.length)];
         if (currentX >= 286 && currentY >= 51 && currentX <= 365 && currentY <= 138 && purchasedTicket === "true") {
             $("#notify").html("You watch the bird exhibit with others in the crowd. The bird on display is a(n) " + currentBird + ".");
+            if (currentBird === "flamingo") {
+                ectx.beginPath();
+                ectx.fillRect(0, 0, 500, 500);
+                ectx.drawImage(imageFlamingo, 150, 150);
+                ectx.closePath();
+            } else if (currentBird === "ostrich") {
+                ectx.beginPath();
+                ectx.fillRect(0, 0, 500, 500);
+                ectx.drawImage(imageOstrich, 150, 150);
+                ectx.closePath();
+            } else if (currentBird === "eagle") {
+                ectx.beginPath();
+                ectx.fillRect(0, 0, 500, 500);
+                ectx.drawImage(imageEagle, 150, 150);
+                ectx.closePath();
+            }
         } else if (currentX >= 286 && currentY >= 51 && currentX <= 365 && currentY <= 138 && purchasedTicket === "false") {
             $("#notify").html("You must purchase a ticket before viewing this exhibit!");
         }
@@ -199,9 +224,30 @@ function zooKeeper() {
     }
 
     function exhibitReptiles() {
+        var imageSnake = document.getElementById("snake");
+        var imageKomodo = document.getElementById("komodo");
+        var imageCrocodile = document.getElementById("crocodile");
+        ectx.fillStyle = "#fff";
+        
         var currentReptile = reptileIndex[Math.floor(Math.random() * reptileIndex.length)];
         if (currentX >= 39 && currentY >= 367 && currentX <= 119 && currentY <= 450 && purchasedTicket === "true") {
             $("#notify").html("You watch the reptile exhibit with others in the crowd. The reptile on display is a " + currentReptile + ".");
+            if (currentReptile === "snake") {
+                ectx.beginPath();
+                ectx.fillRect(0, 0, 500, 500);
+                ectx.drawImage(imageSnake, 150, 150);
+                ectx.closePath();
+            } else if (currentReptile === "komodo dragon") {
+                ectx.beginPath();
+                ectx.fillRect(0, 0, 500, 500);
+                ectx.drawImage(imageKomodo, 150, 150);
+                ectx.closePath();
+            } else if (currentReptile === "crocodile") {
+                ectx.beginPath();
+                ectx.fillRect(0, 0, 500, 500);
+                ectx.drawImage(imageCrocodile, 150, 150);
+                ectx.closePath();
+            }
         } else if (currentX >= 39 && currentY >= 367 && currentX <= 119 && currentY <= 450 && purchasedTicket === "false") {
             $("#notify").html("You must purchase a ticket before viewing this exhibit!");
         }

@@ -3,6 +3,9 @@ body {
     text-align: center;
     font-family: 'Open Sans', sans-serif;
 }
+img {
+    display: none;
+}
 #instruction {
     font-style: italic;
 }
@@ -14,13 +17,4 @@ body {
 }
 #exhibit {
  border:2px solid #808080; /* Temporary - Grey */
-}
-#lion {
-	display: none;
-}
-#monkey {
-	display: none;
-}
-#giraffe {
-	display: none;
 }
