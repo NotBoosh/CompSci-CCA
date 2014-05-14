@@ -1,3 +1,4 @@
+/*global $, jQuery*/
 // Global variables
 var minimap = document.getElementById("minimap");
 var exhibitCanvas = document.getElementById("exhibit");
@@ -9,27 +10,20 @@ var offsetY = minimapOffset.top;
 var currentX = 10;
 var currentY = 10;
 var frameCount = 60;
+var angle = 0;
 var timer;
 var points;
 var currentFrame;
 var purchasedTicket = "false";
 
-// Exhibits | To-do: Select a random value from this array
-// and display that animal's anim in the "exhibit"
+// Exhibits
 var mammalIndex = ["giraffe", "lion", "monkey"];
 var reptileIndex = ["snake", "komodo dragon", "crocodile"];
 var birdIndex = ["eagle", "flamingo", "ostrich"];
 
-
-function animate() {
-    var point = points[currentFrame++];
-    draw(point.x, point.y);
-    if (currentFrame < points.length) {
-        timer = setTimeout(animate, 1000 / 60);
-    }
-}
-
 function linePoints(x1, y1, x2, y2, frames) {
+    "use strict";
+    var frame;
     var dx = x2 - x1;
     var dy = y2 - y1;
     var length = Math.sqrt(dx * dx + dy * dy);
@@ -40,22 +34,24 @@ function linePoints(x1, y1, x2, y2, frames) {
         x: x1,
         y: y1
     });
-    for (var frame = 0; frame < frames - 1; frame++) {
+    for (frame = 0; frame < frames - 1; frame++) {
         a.push({
             x: x1 + (incrementX * frame),
             y: y1 + (incrementY * frame)
-        })
+        });
     }
     a.push({
         x: x2,
         y: y2
     });
-    return (a)
+    return (a);
 }
 
 function draw(x, y) {
+    "use strict";
     ctx.clearRect(0, 0, minimap.width, minimap.height);
     ctx.strokeStyle = "gray";
+
 
     // Ticket Booth
     ctx.beginPath();
@@ -91,7 +87,7 @@ function draw(x, y) {
 
     // Concessions
     ctx.beginPath();
-    ctx.fillStyle = "#00cccc"; // Turquoise
+    ctx.fillStyle = "#3370d4"; // Turquoise
     ctx.rect(439, 348, 40, 40);
     ctx.fill();
     ctx.stroke();
@@ -107,33 +103,38 @@ function draw(x, y) {
 
     // Player -- last so it gains draw priority
     ctx.beginPath();
-    ctx.fillStyle = "#3370d4"; // Blue
-    ctx.arc(x, y, 10, 20, 0, 2*Math.PI);
-    ctx.fill();
+    ctx.arc(x, y, 10, 20, 0, 2 * Math.PI);
     ctx.stroke();
     ctx.closePath();
 
+    ctx.fillStyle = "#000";
+    ctx.font = "13px Tahoma";
+    ctx.fill();
+    ctx.fillText("Tickets", 50, 105);
+    ctx.fillText("Restrooms", 428, 245);
+    ctx.fillText("Concessions", 423, 405);
+    ctx.fillText("Exhibit: Mammals", 220, 325);
+    ctx.fillText("Exhibit: Reptiles", 33, 462);
+    ctx.fillText("Exhibit: Birds", 288, 147);
+    ctx.fillText("You", x - 10, y + 25);
 }
 
-function handleMouseDown(e) {
-    mouseX = parseInt(e.clientX - offsetX);
-    mouseY = parseInt(e.clientY - offsetY);
-    $("#downlog").html("Debug Coordinate: " + mouseX + " / " + mouseY); // For debugging
-    points = linePoints(currentX, currentY, mouseX, mouseY, frameCount);
-    currentFrame = 0;
-    currentX = mouseX;
-    currentY = mouseY;
-    animate();
-
-    // Calling the primary function for each exhibit/location
-    zooKeeper();
+function animate() {
+    "use strict";
+    var point = points[currentFrame++];
+    draw(point.x, point.y);
+    if (currentFrame < points.length) {
+        timer = setTimeout(animate, 1000 / 60);
+    }
 }
 
 function zooKeeper() {
+    "use strict";
+
     function ticketBooth() {
         if (currentX >= 50 && currentY >= 50 && currentX <= 89 && currentY <= 96 && purchasedTicket === "false") {
             $("#notify").html("You purchase a ticket from the booth.");
-            purchasedTicket = "true" // Allows player to progress
+            purchasedTicket = "true"; // Allows player to progress
         }
     }
 
@@ -144,42 +145,43 @@ function zooKeeper() {
     }
 
     function concessions() {
+        var userPurchase;
         if (currentX >= 439 && currentY >= 348 && currentX <= 480 && currentY <= 395) {
             $("#notify").html("You use visit the concessions. What do you want to buy?");
-            var userPurchase = prompt("The concession somehow has every food and drink in the known universe.");
-            if (userPurchase != null){
+            userPurchase = prompt("The concession somehow has every food and drink in the known universe.\nLeave empty to purchase nothing.");
+            if (userPurchase !== null) {
                 $("#notify").html("You purchase " + userPurchase + ".");
+            } else if (userPurchase === null) {
+                $("#notify").html("You purchase nothing.");
             }
         }
     }
 
     function exhibitMammals() {
-		var imageGiraffe = document.getElementById("giraffe");
-		var imageLion = document.getElementById("lion");
-		var imageMonkey = document.getElementById("monkey");
-		ectx.fillStyle = "#fff";
-		
+        var imageGiraffe = document.getElementById("giraffe");
+        var imageLion = document.getElementById("lion");
+        var imageMonkey = document.getElementById("monkey");
+        ectx.fillStyle = "#fff";
+
         var currentMammal = mammalIndex[Math.floor(Math.random() * mammalIndex.length)];
         if (currentX >= 232 && currentY >= 237 && currentX <= 310 && currentY <= 313 && purchasedTicket === "true") {
             $("#notify").html("You watch the mammal exhibit with others in the crowd. The mammal on display is a " + currentMammal + ".");
-			if (currentMammal === "giraffe"){
-				ectx.beginPath();
-				ectx.fillRect(0, 0, 500, 500);
-				ectx.drawImage(imageGiraffe, 150, 150);
-				ectx.closePath();
-			}
-			else if (currentMammal === "lion"){
-				ectx.beginPath();
-				ectx.fillRect(0, 0, 500, 500);
-				ectx.drawImage(imageLion, 150, 150);
-				ectx.closePath();
-			}
-			else if (currentMammal === "monkey"){
-				ectx.beginPath();
-				ectx.fillRect(0, 0, 500, 500);
-				ectx.drawImage(imageMonkey, 150, 150);
-				ectx.closePath();
-			}
+            if (currentMammal === "giraffe") {
+                ectx.beginPath();
+                ectx.fillRect(0, 0, 500, 500);
+                ectx.drawImage(imageGiraffe, 150, 150);
+                ectx.closePath();
+            } else if (currentMammal === "lion") {
+                ectx.beginPath();
+                ectx.fillRect(0, 0, 500, 500);
+                ectx.drawImage(imageLion, 150, 150);
+                ectx.closePath();
+            } else if (currentMammal === "monkey") {
+                ectx.beginPath();
+                ectx.fillRect(0, 0, 500, 500);
+                ectx.drawImage(imageMonkey, 150, 150);
+                ectx.closePath();
+            }
         } else if (currentX >= 232 && currentY >= 237 && currentX <= 310 && currentY <= 313 && purchasedTicket === "false") {
             $("#notify").html("You must purchase a ticket before viewing this exhibit!");
         }
@@ -215,8 +217,27 @@ function zooKeeper() {
     exhibitReptiles();
 }
 
+
+function handleMouseDown(e) {
+    "use strict";
+    var mouseX;
+    var mouseY;
+    mouseX = parseInt(e.clientX - offsetX);
+    mouseY = parseInt(e.clientY - offsetY);
+    $("#downlog").html("Debug Coordinate: " + mouseX + " / " + mouseY); // For debugging
+    points = linePoints(currentX, currentY, mouseX, mouseY, frameCount);
+    currentFrame = 0;
+    currentX = mouseX;
+    currentY = mouseY;
+    animate();
+
+    // Calling the primary function for each exhibit/location
+    zooKeeper();
+}
+
 $("#minimap").mousedown(function (e) {
-    handleMouseDown(e)
+    "use strict";
+    handleMouseDown(e);
 });
 
 draw(10, 10);
