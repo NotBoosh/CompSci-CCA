@@ -1,4 +1,5 @@
 /*global $, jQuery*/
+
 // Global variables
 var minimap = document.getElementById("minimap");
 var exhibitCanvas = document.getElementById("exhibit");
@@ -7,20 +8,21 @@ var ctx = minimap.getContext("2d");
 var minimapOffset = $("#minimap").offset();
 var offsetX = minimapOffset.left;
 var offsetY = minimapOffset.top;
-var currentX = 10;
-var currentY = 10;
+var currentX = 20;
+var currentY = 20;
 var frameCount = 60;
 var angle = 0;
 var timer;
 var points;
 var currentFrame;
-var purchasedTicket = "false";
+var purchasedTicket = "false"; // Player does not start out w/ticket
 
 // Exhibits
 var mammalIndex = ["giraffe", "lion", "monkey"];
 var reptileIndex = ["snake", "komodo dragon", "crocodile"];
 var birdIndex = ["eagle", "flamingo", "ostrich"];
 
+// Player placement calculations
 function linePoints(x1, y1, x2, y2, frames) {
     "use strict";
     var frame;
@@ -47,6 +49,7 @@ function linePoints(x1, y1, x2, y2, frames) {
     return (a);
 }
 
+// Draws ingame objects except for the animals
 function draw(x, y) {
     "use strict";
     ctx.clearRect(0, 0, minimap.width, minimap.height);
@@ -113,21 +116,23 @@ function draw(x, y) {
     ctx.fillText("Tickets", 50, 105);
     ctx.fillText("Restrooms", 428, 245);
     ctx.fillText("Concessions", 423, 405);
-    ctx.fillText("Exhibit: Mammals", 220, 325);
+    ctx.fillText("Exhibit: Mammals", 219, 328);
     ctx.fillText("Exhibit: Reptiles", 33, 462);
     ctx.fillText("Exhibit: Birds", 288, 147);
     ctx.fillText("You", x - 10, y + 25);
 }
 
-function animate() {
+// Player movement anims
+function animatePly() {
     "use strict";
     var point = points[currentFrame++];
     draw(point.x, point.y);
     if (currentFrame < points.length) {
-        timer = setTimeout(animate, 1000 / 60);
+        timer = setTimeout(animatePly, 1000 / 60);
     }
 }
 
+// Primary function for the animals
 function zooKeeper() {
     "use strict";
 
@@ -135,9 +140,7 @@ function zooKeeper() {
         if (currentX >= 50 && currentY >= 50 && currentX <= 89 && currentY <= 96 && purchasedTicket === "false") {
             $("#notify").html("You purchase a ticket from the booth.");
             purchasedTicket = "true"; // Allows player to progress
-        }
-        
-        else if (currentX >= 50 && currentY >= 50 && currentX <= 89 && currentY <= 96 && purchasedTicket) {
+        } else if (currentX >= 50 && currentY >= 50 && currentX <= 89 && currentY <= 96 && purchasedTicket) {
             $("#notify").html("You already own a ticket!");
         }
     }
@@ -153,10 +156,11 @@ function zooKeeper() {
         if (currentX >= 439 && currentY >= 348 && currentX <= 480 && currentY <= 395) {
             $("#notify").html("You use visit the concessions. What do you want to buy?");
             userPurchase = prompt("The concession somehow has every food and drink in the known universe.\nLeave empty to purchase nothing.");
-            if (userPurchase !== null) {
-                $("#notify").html("You purchase " + userPurchase + ".");
-            } else if (userPurchase === null) {
+
+            if (userPurchase === "") {
                 $("#notify").html("You purchase nothing.");
+            } else if (userPurchase !== null) {
+                $("#notify").html("You purchase " + userPurchase + ".");
             }
         }
     }
@@ -189,7 +193,6 @@ function zooKeeper() {
         } else if (currentX >= 232 && currentY >= 237 && currentX <= 310 && currentY <= 313 && purchasedTicket === "false") {
             $("#notify").html("You must purchase a ticket before viewing this exhibit!");
         }
-        // anim stuff here
     }
 
     function exhibitBirds() {
@@ -197,7 +200,7 @@ function zooKeeper() {
         var imageOstrich = document.getElementById("ostrich");
         var imageEagle = document.getElementById("eagle");
         ectx.fillStyle = "#fff";
-        
+
         var currentBird = birdIndex[Math.floor(Math.random() * mammalIndex.length)];
         if (currentX >= 286 && currentY >= 51 && currentX <= 365 && currentY <= 138 && purchasedTicket === "true") {
             $("#notify").html("You watch the bird exhibit with others in the crowd. The bird on display is a(n) " + currentBird + ".");
@@ -220,7 +223,6 @@ function zooKeeper() {
         } else if (currentX >= 286 && currentY >= 51 && currentX <= 365 && currentY <= 138 && purchasedTicket === "false") {
             $("#notify").html("You must purchase a ticket before viewing this exhibit!");
         }
-        // anim stuff here
     }
 
     function exhibitReptiles() {
@@ -228,7 +230,7 @@ function zooKeeper() {
         var imageKomodo = document.getElementById("komodo");
         var imageCrocodile = document.getElementById("crocodile");
         ectx.fillStyle = "#fff";
-        
+
         var currentReptile = reptileIndex[Math.floor(Math.random() * reptileIndex.length)];
         if (currentX >= 39 && currentY >= 367 && currentX <= 119 && currentY <= 450 && purchasedTicket === "true") {
             $("#notify").html("You watch the reptile exhibit with others in the crowd. The reptile on display is a " + currentReptile + ".");
@@ -251,7 +253,6 @@ function zooKeeper() {
         } else if (currentX >= 39 && currentY >= 367 && currentX <= 119 && currentY <= 450 && purchasedTicket === "false") {
             $("#notify").html("You must purchase a ticket before viewing this exhibit!");
         }
-        // anim stuff here
     }
 
     // Call aforementioned functions
@@ -263,19 +264,19 @@ function zooKeeper() {
     exhibitReptiles();
 }
 
-
+// Allows player to click on minimap
 function handleMouseDown(e) {
     "use strict";
     var mouseX;
     var mouseY;
     mouseX = parseInt(e.clientX - offsetX);
     mouseY = parseInt(e.clientY - offsetY);
-    $("#downlog").html("Debug Coordinate: " + mouseX + " / " + mouseY); // For debugging
+    /*$("#downlog").html("Debug Coordinate: " + mouseX + " / " + mouseY); // For debugging */
     points = linePoints(currentX, currentY, mouseX, mouseY, frameCount);
     currentFrame = 0;
     currentX = mouseX;
     currentY = mouseY;
-    animate();
+    animatePly();
 
     // Calling the primary function for each exhibit/location
     zooKeeper();
@@ -283,7 +284,11 @@ function handleMouseDown(e) {
 
 $("#minimap").mousedown(function (e) {
     "use strict";
-    handleMouseDown(e);
+    switch (event.which) {
+    case 1: // Prevents right click movement
+        handleMouseDown(e);
+        break;
+    }
 });
 
-draw(10, 10);
+draw(20, 20); // Starting position

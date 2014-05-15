@@ -1,19 +1,36 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<link rel="stylesheet" type="text/css" href="css/style.css"/>
-<link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-<script type="text/javascript" src="js/jquery-2.1.1.min.js"></script>
-<script type="text/javascript" src="js/jQueryRotateCompressed.js"></script>
-<script type="text/javascript">
-	function clearDialogue(){
-		$("#notify").html("");
-	}
-</script>
+    <link rel="stylesheet" type="text/css" href="css/style.css" />
+    <script src="js/jquery-1.11.1.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
+    <script type="text/javascript">
+        function clearDialogue() {
+            $("#notify").html("");
+        }
+    </script>
 </head>
+
 <body>
+    <nav class="navbar navbar-default" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">CCA - Zoo Program</a>
+            </div>
+        </div>
+    </nav>
     <!-- Mammals -->
-	<img src="img/mammals/giraffe.png" id="giraffe" width="256" height="256">
+    <img src="img/mammals/giraffe.png" id="giraffe" width="256" height="256">
     <img src="img/mammals/lion.png" id="lion" width="256" height="256">
     <img src="img/mammals/monkey.png" id="monkey" width="256" height="256">
     <!-- Birds -->
@@ -24,13 +41,20 @@
     <img src="img/reptiles/crocodile.png" id="crocodile" width="256" height="256">
     <img src="img/reptiles/komodo.png" id="komodo" width="256" height="256">
     <img src="img/reptiles/snake.png" id="snake" width="128" height="128">
- 	<p id="instruction">Click on an exhibit to visit it.</p>
-	<p id="downlog">Debug Coordinate: 10 / 10</p>
-	<canvas id="minimap" width=500 height=500></canvas>
-	<canvas id="exhibit" width=500 height=500></canvas>
-	<p id="notify">You have entered the zoo.</p><button type="button" onclick="clearDialogue()">Clear</button>
+    <div id="instruction" class="panel panel-primary">
+        <div class="panel-heading">How to Play</div>
+        <div class="panel-body">Click on any location in the minimap to the left to visit it.</div>
+    </div>
+    <!-- <p id="downlog">Debug Coordinate: 15 / 15</p> -->
+    <canvas id="minimap" width=500 height=500></canvas>
+    <canvas id="exhibit" width=500 height=500></canvas>
+    <div id="gametext" class="well well-sm">
+        <h4 id="notify">You have entered the zoo.</h4>
+    </div>
+    <button type="button" onclick="clearDialogue()" class="btn btn-primary btn-sm">Clear</button>
 </body>
 <script type="text/javascript" src="js/game.js"></script>
+
 </html>
 
 
