@@ -324,7 +324,7 @@ function zooKeeper() {
                 var backflipTimer = 0;
 
                 var ang = 0;
-                var fps = 1000 / 25;
+                var fps = 1000 / 30;
                 img.onload = function () {
                     var cache = this; // Cache the image element for later use
                     var interval = setInterval(function () {
