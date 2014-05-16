@@ -15,6 +15,7 @@ var timer;
 var points;
 var currentFrame;
 var purchasedTicket = "false"; // Player does not start out w/ticket
+var backflipTimer = 0;
 
 // Exhibits
 var mammalIndex = ["giraffe", "lion", "monkey"];
@@ -317,25 +318,28 @@ function zooKeeper() {
     }
 
     function theater() {
-        if (currentX >= 39 && currentY >= 204 && currentX <= 120 && currentY <= 285 && purchasedTicket === "true") {
-            $("#notify").html("You approach the theater. A weird show about backflipping giraffes is on display.");
+        if (currentX >= 39 && currentY >= 204 && currentX <= 120 && currentY <= 285 && purchasedTicket === "true" && backflipTimer === 0) {
+            $("#notify").html("You approach the theater. A weird show about a dancing giraffe is on display.");
             $(function () {
                 var img = new Image();
-                var backflipTimer = 0;
-
+                var backflipSpeed = 1;
+                var x3 = 0
                 var ang = 0;
-                var fps = 1000 / 30;
+                var fps = 1000 / 60;
                 img.onload = function () {
                     var cache = this; // Cache the image element for later use
                     var interval = setInterval(function () {
                         ectx.save();
                         ectx.clearRect(0, 0, exhibitCanvas.width, exhibitCanvas.height); //clear the canvas
                         ectx.translate(cache.width, cache.height);
-                        ectx.rotate(Math.PI / 180 * (ang += 5)); // Increment the angle and rotate
+                        ectx.rotate((ang += backflipSpeed) / 30); // Increment the angle and rotate
                         ectx.drawImage(img, -cache.width / 2, -cache.height / 2);
                         ectx.restore(); // Restore the canvas
                         backflipTimer += 1;
-                        if (backflipTimer === 143) {
+                        backflipSpeed = Math.cos(x3);
+                        x3 += 0.07
+                        if (backflipTimer === 720) {
+                            backflipTimer = 0;
                             clearInterval(interval);
                         }
                     }, fps);
