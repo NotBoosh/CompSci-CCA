@@ -342,7 +342,7 @@ function zooKeeper() {
                         ectx.restore(); // Restore the canvas
                         backflipTimer += 1;
                         if (backflipTimer === 144) {
-                            backflipTimer = 0
+                            backflipTimer = 0;
                             clearInterval(interval);
                         }
                     }, fps);
