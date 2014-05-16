@@ -15,7 +15,7 @@ var timer;
 var points;
 var currentFrame;
 var purchasedTicket = "false"; // Player does not start out w/ticket
-var backflipTimer = 0
+var backflipTimer = 0;
 
 // Exhibits
 var mammalIndex = ["giraffe", "lion", "monkey"];
