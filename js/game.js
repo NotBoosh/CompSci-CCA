@@ -15,7 +15,7 @@ var timer;
 var points;
 var currentFrame;
 var purchasedTicket = "false"; // Player does not start out w/ticket
-var backflipTimer = 0;
+var backflipTimer = 0
 
 // Exhibits
 var mammalIndex = ["giraffe", "lion", "monkey"];
@@ -184,8 +184,10 @@ function zooKeeper() {
     "use strict";
 
     function ticketBooth() {
+        ectx.fillStyle = "#fff";
         var ticketType;
         if (currentX >= 50 && currentY >= 50 && currentX <= 89 && currentY <= 96 && purchasedTicket === "false") {
+            ectx.fillRect(0, 0, 500, 500);
             $("#notify").html("What ticket do you want to buy?");
             ticketType = prompt("Enter the Numerical Value\n\n1. Regular\n2. Deluxe\n3. Children's");
             if (ticketType === "") {
@@ -209,14 +211,18 @@ function zooKeeper() {
     }
 
     function restrooms() {
+        ectx.fillStyle = "#fff";
         if (currentX >= 439 && currentY >= 191 && currentX <= 480 && currentY <= 230) {
+            ectx.fillRect(0, 0, 500, 500);
             $("#notify").html("You use the restrooms.");
         }
     }
 
     function concessions() {
+        ectx.fillStyle = "#fff";
         var userPurchase;
         if (currentX >= 439 && currentY >= 348 && currentX <= 480 && currentY <= 395) {
+            ectx.fillRect(0, 0, 500, 500);
             $("#notify").html("You use visit the concessions. What do you want to buy?");
             userPurchase = prompt("Enter the Numerical Value\n\n1. Soda\n2. Water\n3. Hamburger\n4. Corndog");
 
@@ -319,27 +325,24 @@ function zooKeeper() {
 
     function theater() {
         if (currentX >= 39 && currentY >= 204 && currentX <= 120 && currentY <= 285 && purchasedTicket === "true" && backflipTimer === 0) {
-            $("#notify").html("You approach the theater. A weird show about a dancing giraffe is on display.");
+            $("#notify").html("You approach the theater. A weird show about backflipping giraffes is on display.");
             $(function () {
                 var img = new Image();
-                var backflipSpeed = 1;
-                var x3 = 0
+
                 var ang = 0;
-                var fps = 1000 / 60;
+                var fps = 1000 / 30;
                 img.onload = function () {
                     var cache = this; // Cache the image element for later use
                     var interval = setInterval(function () {
                         ectx.save();
                         ectx.clearRect(0, 0, exhibitCanvas.width, exhibitCanvas.height); //clear the canvas
                         ectx.translate(cache.width, cache.height);
-                        ectx.rotate((ang += backflipSpeed) / 30); // Increment the angle and rotate
+                        ectx.rotate(Math.PI / 180 * (ang += 5)); // Increment the angle and rotate
                         ectx.drawImage(img, -cache.width / 2, -cache.height / 2);
                         ectx.restore(); // Restore the canvas
                         backflipTimer += 1;
-                        backflipSpeed = Math.cos(x3);
-                        x3 += 0.07
-                        if (backflipTimer === 720) {
-                            backflipTimer = 0;
+                        if (backflipTimer === 144) {
+                            backflipTimer = 0
                             clearInterval(interval);
                         }
                     }, fps);
@@ -355,7 +358,9 @@ function zooKeeper() {
 
     // Exiting the program
     function exit() {
+        ectx.fillStyle = "#fff";
         if (currentX >= 470 && currentY >= 19 && currentX <= 498 && currentY <= 38) {
+            ectx.fillRect(0, 0, 500, 500);
             $("#notify").html("You walk back to the parking lot...");
             if (confirm("Leave the zoo?")) {
                 close();
